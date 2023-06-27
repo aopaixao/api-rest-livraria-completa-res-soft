@@ -30,7 +30,7 @@ API Rest utilizando Spring Boot.
 ### Endpoints com Paginação
 
 * Os parâmetros pagina e qtdRegistros são números inteiros
-* Os acima são opcionais
+* Os parâmetros acima são opcionais
 * A paginação se inícia na página 0
 * Os valores dos parâmetros deverão ser modificados de acordo com os registros que se deseja obter
 
