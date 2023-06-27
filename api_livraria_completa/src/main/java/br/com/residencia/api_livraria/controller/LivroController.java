@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,8 +35,9 @@ public class LivroController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<LivroDTO>> getAllLivros(){
-		return new ResponseEntity<>(livroService.getAllLivrosDTO(), HttpStatus.OK);
+	public ResponseEntity<List<LivroDTO>> getAllLivros(@RequestParam(required = false) 
+			Integer pagina, @RequestParam(required = false) Integer qtdRegistros){
+		return new ResponseEntity<>(livroService.getAllLivrosDTO(pagina, qtdRegistros), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
@@ -49,8 +51,11 @@ public class LivroController {
 	}
 	
 	@GetMapping("/por-editora/{codigoEditora}")
-	public ResponseEntity<List<LivroDTO>> getAllLivrosByEditora(@PathVariable Integer codigoEditora){
-		return new ResponseEntity<>(livroService.getAllLivrosByEditora(codigoEditora),
+	public ResponseEntity<List<LivroDTO>> getAllLivrosByEditora(@PathVariable Integer codigoEditora,
+			@RequestParam(required = false) Integer pagina, 
+			@RequestParam(required = false) Integer qtdRegistros
+			){
+		return new ResponseEntity<>(livroService.getAllLivrosByEditora(codigoEditora, pagina, qtdRegistros),
 				HttpStatus.OK);
 	}
 	

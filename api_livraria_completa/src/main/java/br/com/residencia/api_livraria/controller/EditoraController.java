@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,8 +30,10 @@ public class EditoraController {
 	EditoraService editoraService;
 	
 	@GetMapping
-	public ResponseEntity<List<EditoraDTO>> getAllEditoras(){
-		return new ResponseEntity<>(editoraService.getAllEditoras(), HttpStatus.OK);
+	public ResponseEntity<List<EditoraDTO>> getAllEditoras(@RequestParam(required = false) 
+			Integer pagina,
+			@RequestParam(required = false) Integer qtdRegistros){
+		return new ResponseEntity<>(editoraService.getAllEditoras(pagina, qtdRegistros), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

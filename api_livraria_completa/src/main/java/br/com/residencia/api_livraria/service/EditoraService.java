@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,9 +35,17 @@ public class EditoraService {
 	@Autowired
 	LivroService livroService;
 	
-	public List<EditoraDTO> getAllEditoras(){
-		List<Editora> listaEditora = editoraRepository.findAll();
+	public List<EditoraDTO> getAllEditoras(Integer pagina, Integer qtdRegistros){
+		Pageable page = null;
+		List<Editora> listaEditora = new ArrayList<>();
 		List<EditoraDTO> listaEditoraDTO = new ArrayList<>();
+		
+		if (pagina != null && qtdRegistros != null) {
+			page = PageRequest.of(pagina, qtdRegistros);
+			listaEditora = editoraRepository.findAll(page).getContent();
+		} else {
+			listaEditora = editoraRepository.findAll();
+		}
 		
 		for(Editora editora: listaEditora) {
 			EditoraDTO editoraDTO = toDTO(editora);

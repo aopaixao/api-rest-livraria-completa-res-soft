@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,9 +45,17 @@ public class LivroService {
 		return listaLivros;
 	}
 	
-	public List<LivroDTO> getAllLivrosDTO(){
-		List<Livro> listaLivro = livroRepository.findAll();
+	public List<LivroDTO> getAllLivrosDTO(Integer pagina, Integer qtdRegistros){
+		Pageable page = null;
+		List<Livro> listaLivro = new ArrayList<>();
 		List<LivroDTO> listaLivroDTO = new ArrayList<>();
+		
+		if (pagina != null && qtdRegistros != null) {
+			page = PageRequest.of(pagina, qtdRegistros);
+			listaLivro = livroRepository.findAll(page).getContent();
+		}else {
+			listaLivro = livroRepository.findAll();
+		}
 		
 		for(Livro livro: listaLivro) {
 			LivroDTO livroDTO = toDTO(livro);
@@ -65,14 +75,22 @@ public class LivroService {
 		return livroDTO;
 	}
 	
-	public List<LivroDTO> getAllLivrosByEditora(Integer codigoEditora) {
+	public List<LivroDTO> getAllLivrosByEditora(Integer codigoEditora,
+			Integer pagina, Integer qtdRegistros) {
 		
 		Editora editora = editoraRepository.findById(codigoEditora).orElse(null);
+		Pageable page = null;
 		List<Livro> listaLivros = new ArrayList<>();
 		List<LivroDTO> listaLivrosDTO = new ArrayList<>();
 		
-		if(editora != null)
-			listaLivros = livroRepository.findByEditora(editora);
+		if(editora != null) {
+			if (pagina != null && qtdRegistros != null) {
+				page = PageRequest.of(pagina, qtdRegistros);
+				listaLivros = livroRepository.findByEditora(editora, page);
+			}else {
+				listaLivros = livroRepository.findByEditora(editora);
+			}
+		}
 
 		if(!listaLivros.isEmpty()) 
 			listaLivros = listaLivros.stream()

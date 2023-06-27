@@ -27,6 +27,19 @@ API Rest utilizando Spring Boot.
 /livros/por-editora/{id}
 ```
 
+### Endpoints com Paginação
+
+* Os parâmetros pagina e qtdRegistros são números inteiros
+* Os acima são opcionais
+* A paginação se inícia na página 0
+* Os valores dos parâmetros deverão ser modificados de acordo com os registros que se deseja obter
+
+```bash
+/editoras?pagina=0&qtdRegistros=2
+/livros?pagina=0&qtdRegistros=2
+/livros/por-editora/{id}?pagina=0&qtdRegistros=2
+```
+
 ## Endpoints - Coleção de todos os Endpoints para Insomnia
 
 ```bash
